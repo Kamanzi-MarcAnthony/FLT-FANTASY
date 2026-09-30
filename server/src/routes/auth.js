@@ -8,7 +8,7 @@ import { requireAdmin, secret } from '../middleware/auth.js';
 
 const router = Router();
 const prod = process.env.NODE_ENV === 'production';
-const cookie = { httpOnly: true, sameSite: prod ? 'none' : 'lax', secure: prod, maxAge: 7 * 864e5 };
+const cookie = { httpOnly: true, sameSite: 'lax', secure: prod, maxAge: 7 * 864e5 };
 const pub = ({ id, name, email, role }) => ({ id, name, email, role });
 
 router.post('/login', (req, res) => {

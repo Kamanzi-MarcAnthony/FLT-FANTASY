@@ -1,0 +1,22 @@
+# Render Blueprint: one web service (API + built Vue app) with a persistent disk for SQLite and photos.
+services:
+  - type: web
+    name: fantasy-football
+    runtime: node
+    plan: starter            # persistent disks need a paid plan; free plans lose data on restart
+    buildCommand: yarn --cwd client install --frozen-lockfile --production=false && yarn --cwd client build && yarn --cwd server install --frozen-lockfile
+    startCommand: yarn --cwd server start
+    healthCheckPath: /api/health
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - { key: NODE_VERSION, value: 22.13.0 }
+      - { key: NODE_ENV, value: production }
+      - { key: DATABASE_PATH, value: /var/data/data.db }
+      - { key: UPLOAD_DIR, value: /var/data/uploads }
+      - { key: JWT_SECRET, generateValue: true }
+      - { key: SUPER_ADMIN_EMAIL, sync: false }
+      - { key: SUPER_ADMIN_PASSWORD, sync: false }
+      - { key: SUPER_ADMIN_NAME, value: Super Admin }

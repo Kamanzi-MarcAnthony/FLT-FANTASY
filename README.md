@@ -17,3 +17,12 @@ Log in with the super admin from `server/.env`, add admins under **Admins**, cre
 yarn test     # API tests
 yarn build    # client build
 ```
+
+## Deploy (GitHub + Render)
+1. Push this repo to GitHub (CI runs automatically from `.github/workflows/ci.yml`).
+2. On render.com: **New → Blueprint**, pick the repo. Render reads `render.yaml`.
+3. When asked, enter `SUPER_ADMIN_EMAIL` and `SUPER_ADMIN_PASSWORD`, then deploy.
+4. Open the `*.onrender.com` URL and log in. Every push to `main` redeploys.
+
+The API and the Vue app are served from one URL, so no CORS or cross-site cookie setup is needed.
+Data lives on the persistent disk at `/var/data` (SQLite file + player photos).

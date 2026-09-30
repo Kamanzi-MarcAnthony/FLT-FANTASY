@@ -82,7 +82,7 @@ router.get('/:id/tracker', (req, res) => {
 });
 
 // ---- players ----
-const uploads = path.resolve('uploads');
+const uploads = path.resolve(process.env.UPLOAD_DIR || 'uploads');
 fs.mkdirSync(uploads, { recursive: true });
 const upload = multer({
   storage: multer.diskStorage({ destination: uploads, filename: (r, f, cb) => cb(null, crypto.randomUUID() + path.extname(f.originalname).toLowerCase()) }),
