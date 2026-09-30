@@ -5,14 +5,17 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     { path: '/login', name: 'login', component: () => import('../views/LoginView.vue') },
-    { path: '/', name: 'leagues', component: () => import('../views/LeaguesView.vue'), meta: { requiresAuth: true } },
-    { path: '/leagues/:id', name: 'league', component: () => import('../views/LeagueDetailsView.vue'), meta: { requiresAuth: true } },
+    { path: '/', name: 'leagues', component: () => import('../views/LeaguesView.vue'), meta: { auth: true } },
+    { path: '/leagues/:id', name: 'league', component: () => import('../views/LeagueDetailsView.vue'), meta: { auth: true } },
+    { path: '/admins', name: 'admins', component: () => import('../views/AdminsView.vue'), meta: { auth: true, superAdmin: true } },
   ],
 });
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
   const auth = useAuthStore();
-  if (to.meta.requiresAuth && !auth.isAuthenticated) return { name: 'login' };
+  await auth.init();
+  if (to.meta.auth && !auth.isAuthenticated) return { name: 'login' };
+  if (to.name === 'login' && auth.isAuthenticated) return { name: 'leagues' };
+  if (to.meta.superAdmin && !auth.isSuperAdmin) return { name: 'leagues' };
 });
-
 export default router;

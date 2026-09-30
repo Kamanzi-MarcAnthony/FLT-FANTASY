@@ -15,6 +15,7 @@ export function errorHandler(err, req, res, next) {
   if (err instanceof AppError) {
     return res.status(err.status).json({ error: { code: err.code, message: err.message, fields: err.fields } });
   }
+  if (err.code === 'LIMIT_FILE_SIZE') return res.status(413).json({ error: { code: 'FILE_TOO_LARGE', message: 'Photo must be under 2 MB', fields: { photo: 'Max 2 MB' } } });
   if (err.type === 'entity.parse.failed') {
     return res.status(400).json({ error: { code: 'BAD_JSON', message: 'Malformed JSON body' } });
   }

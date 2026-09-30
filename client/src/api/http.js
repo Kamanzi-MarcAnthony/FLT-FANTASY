@@ -27,3 +27,5 @@ export async function http(path, { method = 'GET', body, isForm = false } = {}) 
   }
   return data;
 }
+
+export const fileUrl = (p) => (p ? API_URL.replace(/\/api$/, '') + p : null);

@@ -2,10 +2,10 @@
   "name": "fantasy-football",
   "private": true,
   "scripts": {
-    "install:all": "npm --prefix server install && npm --prefix client install",
-    "dev:server": "npm --prefix server run dev",
-    "dev:client": "npm --prefix client run dev",
-    "test": "npm --prefix server test",
-    "build": "npm --prefix client run build"
+    "install:all": "yarn --cwd server install && yarn --cwd client install",
+    "dev:server": "yarn --cwd server dev",
+    "dev:client": "yarn --cwd client dev",
+    "test": "yarn --cwd server test",
+    "build": "yarn --cwd client build"
   }
 }
